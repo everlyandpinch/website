@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinch Architecture | The AI Intelligence Layer Above Your HCM Ecosystem</title>
+<meta name="description" content="Pinch Insight AI and Everly operate as an AI intelligence layer above your entire HCM ecosystem, unifying enterprise data with real world behavioral signals for predictive workforce intelligence.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pinchhealth.com/pinch-architecture/">
+<meta property="og:title" content="Pinch Architecture | The AI Intelligence Layer Above Your HCM Ecosystem">
+<meta property="og:description" content="Pinch Insight AI and Everly operate as an AI intelligence layer above your entire HCM ecosystem, unifying enterprise data with real world behavioral signals for predictive workforce intelligence.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pinchhealth.com/pinch-architecture/">
+<meta property="og:site_name" content="Pinch Insight AI">
+<meta name="twitter:card" content="summary">
+<style>
+:root{
+  --navy:#101B3C;
+  --navy-deep:#0A1229;
+  --purple:#6C6CE8;
+  --teal:#439288;
+  --orange:#E87B35;
+  --lilac:#C6A5F9;
+  --lgray:#F2F3F6;
+  --mgray:#8A90A3;
+  --white:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px;}
+
+/* ============ NAV ============ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,box-shadow .4s;padding:22px 0;}
+.nav.scrolled{background:rgba(16,27,60,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.08);padding:14px 0;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;}
+.nav-logo img{height:40px;}
+.nav-links{display:flex;gap:36px;align-items:center;font-size:14px;font-weight:bold;letter-spacing:.02em;}
+.nav-links a{color:rgba(255,255,255,.85);transition:color .25s;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{background:var(--orange);color:var(--white);padding:11px 24px;border-radius:100px;font-size:14px;font-weight:bold;transition:transform .25s,box-shadow .25s;display:inline-block;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,123,53,.4);}
+.nav-burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:8px;}
+.nav-burger span{display:block;width:24px;height:2.5px;border-radius:2px;background:var(--white);transition:transform .3s,opacity .3s;}
+.nav-burger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+.nav-burger.open span:nth-child(2){opacity:0;}
+.nav-burger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+.mobile-menu{display:none;flex-direction:column;gap:4px;background:rgba(16,27,60,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:18px 24px 26px;border-top:1px solid rgba(255,255,255,.08);}
+.mobile-menu a{color:rgba(255,255,255,.9);font-size:16px;font-weight:bold;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07);}
+.mobile-menu a.nav-cta{margin-top:16px;text-align:center;border-bottom:none;color:var(--white);}
+.mobile-menu.open{display:flex;}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% -20%,#1A2A5E 0%,var(--navy) 55%,var(--navy-deep) 100%);}
+#rise{position:absolute;inset:0;width:100%;height:100%;}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:1080px;padding:150px 40px 100px;}
+.hero h1{font-size:clamp(36px,5vw,66px);line-height:1.08;font-weight:bold;letter-spacing:-.02em;max-width:960px;margin:0 auto;}
+.hero h1 .w{display:inline-block;opacity:0;transform:translateY(30px);animation:wordUp .7s cubic-bezier(.2,.7,.2,1) forwards;}
+@keyframes wordUp{to{opacity:1;transform:translateY(0);}}
+.hero-sub{margin:32px auto 0;max-width:820px;font-size:18px;line-height:1.7;color:rgba(255,255,255,.75);opacity:0;animation:fadeUp 1s .9s forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.hero-legend{margin:44px auto 0;display:inline-flex;gap:34px;justify-content:center;font-size:13px;font-weight:bold;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.75);opacity:0;animation:fadeUp 1s 1.25s forwards;flex-wrap:wrap;border:1px solid rgba(198,165,249,.35);background:rgba(108,108,232,.08);padding:14px 34px;border-radius:100px;}
+.hero-legend span{display:flex;align-items:center;gap:9px;}
+.hero-legend i{width:26px;height:3px;border-radius:2px;display:inline-block;}
+.scroll-cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.scroll-cue .line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,.6),transparent);animation:cue 1.8s infinite;}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* ============ SHARED ============ */
+.section{position:relative;padding:130px 0;}
+.eyebrow{font-size:13px;font-weight:bold;letter-spacing:.24em;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";width:44px;height:3px;border-radius:2px;background:currentColor;}
+h2.big{font-size:clamp(30px,3.8vw,52px);line-height:1.12;font-weight:bold;letter-spacing:-.015em;max-width:900px;}
+.lede{margin-top:26px;font-size:18px;line-height:1.7;max-width:900px;}
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal.d1{transition-delay:.12s;}.reveal.d2{transition-delay:.24s;}.reveal.d3{transition-delay:.36s;}
+
+/* ============ LAYER STACK (PINNED) ============ */
+.stack{background:var(--navy-deep);}
+.stack-pin{position:relative;height:260vh;}
+.stack-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden;}
+.stack-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;width:100%;}
+.stack-visual{display:flex;flex-direction:column-reverse;gap:14px;position:relative;padding:20px 0;}
+.layer{border-radius:16px;padding:22px 26px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1),box-shadow .5s;position:relative;overflow:hidden;}
+.layer::before{content:"";position:absolute;top:0;left:0;bottom:0;width:6px;background:var(--lc);}
+.layer.on{opacity:1;transform:translateY(0);}
+.layer.hot{box-shadow:0 0 0 1.5px var(--lc),0 18px 50px rgba(0,0,0,.4);background:rgba(255,255,255,.07);}
+.layer h4{font-size:17px;font-weight:bold;color:var(--white);}
+.layer .lt{display:inline-block;margin-top:8px;font-size:10.5px;font-weight:bold;letter-spacing:.16em;text-transform:uppercase;color:var(--lc);}
+.stack-pulse{position:absolute;left:50%;width:4px;margin-left:-2px;bottom:24px;top:24px;pointer-events:none;z-index:-1;}
+.stack-steps{position:relative;min-height:380px;}
+.sstep{position:absolute;inset:0;opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s;pointer-events:none;}
+.sstep.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+.sstep .eyebrow{color:var(--sc);}
+.sstep h3{font-size:clamp(24px,2.6vw,36px);line-height:1.15;font-weight:bold;margin-bottom:18px;}
+.sstep p{font-size:16.5px;line-height:1.7;color:rgba(255,255,255,.72);max-width:480px;}
+.sstep .chips{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;max-width:none;}
+.sstep .chips span{font-size:13px;font-weight:bold;color:var(--white);border:1px solid var(--sc);background:rgba(255,255,255,.04);padding:9px 16px;border-radius:100px;}
+.stack-progress{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:3;}
+.stack-progress span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:background .4s,transform .4s;}
+.stack-progress span.on{background:var(--white);transform:scale(1.4);}
+
+/* ============ PIPELINE ============ */
+.pipe{display:grid;grid-template-columns:1fr 64px 1fr 64px 1fr;align-items:stretch;margin-top:70px;}
+.pcard{border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:34px 30px;background:rgba(255,255,255,.03);transition:border-color .5s,background .5s,transform .5s,box-shadow .5s;}
+.pcard .pnum{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:bold;letter-spacing:.2em;text-transform:uppercase;color:var(--pc);}
+.pcard .pnum i{width:10px;height:10px;border-radius:50%;background:var(--pc);display:inline-block;}
+.pcard h3{font-size:26px;margin:16px 0 12px;}
+.pcard p{font-size:15px;line-height:1.65;color:rgba(255,255,255,.7);}
+.pcard.hot{border-color:var(--pc);background:rgba(255,255,255,.07);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4);}
+.pconn{position:relative;align-self:center;height:2px;background:rgba(255,255,255,.15);margin:0 6px;}
+.pconn .pdot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--pc);top:50%;margin-top:-4px;left:0;animation:pflow 2s linear infinite;}
+.pconn .pd2{animation-delay:1s;}
+@keyframes pflow{from{left:-4px;opacity:0;}15%{opacity:1;}85%{opacity:1;}to{left:calc(100% - 4px);opacity:0;}}
+
+/* ============ BOT CHAT ============ */
+.bot{background:var(--navy);}
+.bot-window{margin-top:70px;background:var(--navy-deep);border:1px solid rgba(255,255,255,.12);border-radius:24px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.5);}
+.bot-head{display:flex;align-items:center;gap:14px;padding:20px 28px;border-bottom:1px solid rgba(255,255,255,.1);}
+.bot-head .bdot{width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(67,146,136,.25);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(67,146,136,.45);}50%{box-shadow:0 0 0 8px rgba(67,146,136,0);}}
+.bot-head strong{font-size:15px;}
+.bot-head small{font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;font-weight:bold;margin-left:auto;}
+.bot-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:stretch;margin-top:70px;}
+.bot-cell{position:relative;}
+.bot-window{position:absolute;inset:0;margin-top:0;display:flex;flex-direction:column;}
+.bot-head{flex-shrink:0;}
+.chat-area{flex:1;min-height:0;padding:26px 24px 18px;display:flex;flex-direction:column;justify-content:flex-start;gap:14px;overflow:hidden;transition:opacity .6s ease;scroll-behavior:smooth;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 70px);mask-image:linear-gradient(to bottom,transparent 0,#000 70px);}
+.chat-input{flex-shrink:0;}
+.cmsg{max-width:86%;padding:14px 18px;border-radius:16px;font-size:14.5px;line-height:1.55;opacity:0;transition:opacity .9s ease;}
+.cmsg.show{opacity:1;}
+.cmsg.user{align-self:flex-end;background:var(--purple);color:var(--white);border-radius:16px 4px 16px 16px;font-weight:bold;}
+.cmsg.bot{align-self:flex-start;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:4px 16px 16px 16px;color:rgba(255,255,255,.88);}
+.cmsg.typing{display:flex;gap:6px;padding:16px 20px;transition:opacity .4s ease;}
+.cmsg.typing i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6);animation:tdot 1s infinite;}
+.cmsg.typing i:nth-child(2){animation-delay:.16s;}
+.cmsg.typing i:nth-child(3){animation-delay:.32s;}
+@keyframes tdot{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(-5px);opacity:1;}}
+.chat-input{border-top:1px solid rgba(255,255,255,.1);padding:16px 22px;color:rgba(255,255,255,.4);font-size:14px;display:flex;justify-content:space-between;align-items:center;}
+.chat-input .send{width:36px;height:36px;border-radius:50%;background:var(--orange);position:relative;flex-shrink:0;}
+.chat-input .send::before{content:"";position:absolute;left:14px;top:11px;border-left:9px solid var(--white);border-top:7px solid transparent;border-bottom:7px solid transparent;}
+.bot-steps{display:flex;flex-direction:column;gap:12px;}
+.bstep{display:flex;gap:18px;align-items:flex-start;padding:18px 20px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.02);transition:border-color .4s,background .4s,transform .4s;}
+.bstep .bn{flex-shrink:0;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;color:var(--white);background:var(--bc);opacity:.55;transition:opacity .4s;}
+.bstep p{font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.7);transition:color .4s;}
+.bstep.hot{border-color:var(--bc);background:rgba(255,255,255,.06);transform:translateX(8px);}
+.bstep.hot .bn{opacity:1;}
+.bstep.hot p{color:rgba(255,255,255,.95);}
+
+/* ============ EVERLY GRID ============ */
+.everly{background:var(--white);color:var(--navy);}
+.everly .lede{color:#4A5065;}
+.egrid{margin-top:80px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.ecard{background:var(--white);border:1px solid #E3E5EC;border-radius:20px;padding:36px 30px;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;}
+.ecard:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(16,27,60,.14);}
+.ecard .edot{width:14px;height:14px;border-radius:50%;background:var(--ec);margin-bottom:20px;}
+.ecard h3{font-size:19px;line-height:1.3;margin-bottom:16px;}
+.ecard ul{list-style:none;}
+.ecard li{font-size:14.5px;line-height:1.6;color:#5A6076;padding:9px 0 9px 24px;position:relative;border-top:1px solid #EDEEF3;}
+.ecard li::before{content:"";position:absolute;left:2px;top:16px;width:7px;height:7px;border-radius:50%;background:var(--ec);}
+
+/* ============ LOOP ============ */
+.loop{background:var(--navy-deep);}
+.loop-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+#loopCanvas{width:100%;max-width:560px;aspect-ratio:1/1;margin:0 auto;display:block;}
+.loop-cards{margin-top:64px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.lcard{border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:30px 26px;background:rgba(255,255,255,.03);transition:border-color .4s;}
+.lcard:hover{border-color:var(--kc);}
+.lcard .ktag{display:inline-block;font-size:10.5px;font-weight:bold;letter-spacing:.16em;text-transform:uppercase;color:var(--kc);margin-bottom:14px;}
+.lcard h3{font-size:17px;line-height:1.3;margin-bottom:14px;}
+.lcard ul{list-style:none;}
+.lcard li{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.7);padding:7px 0 7px 20px;position:relative;}
+.lcard li::before{content:"";position:absolute;left:0;top:13px;width:7px;height:7px;border-radius:50%;background:var(--kc);}
+
+/* ============ CTA ============ */
+.cta{background:radial-gradient(ellipse at 50% -30%,#26377A 0%,var(--navy) 55%,var(--navy-deep) 100%);text-align:center;padding:170px 0;position:relative;overflow:hidden;}
+.cta-orbs{position:absolute;inset:0;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;will-change:transform;}
+.orb1{width:420px;height:420px;background:var(--purple);top:-120px;left:-100px;}
+.orb2{width:360px;height:360px;background:var(--teal);bottom:-120px;right:-80px;}
+.orb3{width:280px;height:280px;background:var(--orange);top:40%;right:20%;opacity:.2;}
+.cta .wrap{position:relative;z-index:1;}
+.cta h2{font-size:clamp(32px,4.4vw,60px);line-height:1.1;font-weight:bold;max-width:1100px;margin:0 auto;}
+.cta p{margin:30px auto 0;max-width:820px;font-size:18px;line-height:1.7;color:rgba(255,255,255,.75);}
+.btn-primary{background:var(--orange);color:var(--white);padding:17px 38px;border-radius:100px;font-weight:bold;font-size:16px;transition:transform .25s,box-shadow .25s;display:inline-block;}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 34px rgba(232,123,53,.45);}
+.cta .btn-primary{margin-top:48px;font-size:17px;padding:20px 48px;}
+.cta-motto{margin-top:80px;display:flex;justify-content:center;gap:0;font-size:clamp(15px,1.8vw,22px);font-weight:bold;letter-spacing:.34em;text-transform:uppercase;flex-wrap:wrap;}
+.cta-motto span{opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s;}
+.cta-motto.in span{opacity:1;transform:translateY(0);}
+.cta-motto span:nth-child(1){color:var(--teal);transition-delay:.1s;}
+.cta-motto span:nth-child(2){color:rgba(255,255,255,.4);transition-delay:.25s;padding:0 18px;}
+.cta-motto span:nth-child(3){color:var(--purple);transition-delay:.4s;}
+.cta-motto span:nth-child(4){color:rgba(255,255,255,.4);transition-delay:.55s;padding:0 18px;}
+.cta-motto span:nth-child(5){color:var(--orange);transition-delay:.7s;}
+
+/* ============ FOOTER ============ */
+.footer{background:var(--navy-deep);padding:70px 0 50px;border-top:1px solid rgba(255,255,255,.08);}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:30px;}
+.footer img{height:40px;}
+.footer-links{display:flex;gap:34px;font-size:14px;color:rgba(255,255,255,.6);}
+.footer-links a:hover{color:var(--white);}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1380px){
+  .stack-progress{display:none;}
+}
+@media(max-width:1024px){
+  .stack-grid{grid-template-columns:1fr;gap:36px;}
+  .stack-steps{min-height:330px;}
+  .egrid{grid-template-columns:1fr;max-width:560px;margin-left:auto;margin-right:auto;}
+  .loop-cards{grid-template-columns:repeat(2,1fr);}
+  .loop-top{grid-template-columns:1fr;gap:40px;}
+}
+@media(max-width:1024px){
+  .pipe{grid-template-columns:1fr;gap:18px;}
+  .pconn{display:none;}
+  .bot-grid{grid-template-columns:1fr;gap:34px;}
+  .bot-cell{min-height:480px;}
+}
+@media(max-width:720px){
+  .wrap{padding:0 24px;}
+  .nav-links{display:none;}
+  .nav-burger{display:flex;}
+  .loop-cards{grid-template-columns:1fr;}
+  .stack-progress{display:none;}
+  .layer{padding:16px 20px;}
+  .layer h4{font-size:14.5px;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="nav-logo" href="https://pinchhealth.com/"><img src="data:image/webp;base64,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" alt="Pinch"></a>
+    <div class="nav-links">
+      <a href="https://pinchhealth.com/pinch-architecture/">Pinch Architecture</a>
+      <a href="https://pinchhealth.com/meet-everly/">Meet Everly</a>
+      <a href="https://pinchhealth.com/meet-everly/#faq">FAQs</a>
+      <a class="nav-cta" href="https://pinchhealth.com/book-demo/">Book Demo</a>
+    </div>
+    <button class="nav-burger" id="navBurger" aria-label="Open Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="https://pinchhealth.com/pinch-architecture/">Pinch Architecture</a>
+    <a href="https://pinchhealth.com/meet-everly/">Meet Everly</a>
+    <a href="https://pinchhealth.com/meet-everly/#faq">FAQs</a>
+    <a class="nav-cta" href="https://pinchhealth.com/book-demo/">Book Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <canvas id="rise"></canvas>
+  <div class="hero-content">
+    <h1 id="heroH1"><span class="hl">The AI Intelligence Layer Built</span> <span class="hl">Above Your Entire HCM Ecosystem.</span></h1>
+    <p class="hero-sub">Pinch Insight AI and Everly operate as an AI intelligence layer that sits above the employer’s entire HCM ecosystem. The platform continuously ingests data from HRIS, payroll, benefits, wellness, and engagement systems, then enriches it with real world behavioral and social signals captured through the Everly AI companion.</p>
+    <div class="hero-legend">
+      <span><i style="background:var(--teal)"></i>Enterprise Data</span>
+      <span><i style="background:var(--orange)"></i>Behavioral Data</span>
+      <span><i style="background:var(--purple)"></i>Predictive Intelligence</span>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span></div>
+</header>
+
+<!-- LAYER STACK -->
+<section class="stack" id="architecture">
+  <div class="stack-pin" id="stackPin">
+    <div class="stack-sticky">
+      <div class="stack-progress" id="stackDots">
+        <span class="on"></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="wrap stack-grid">
+        <div class="stack-visual" id="stackVisual">
+          <div class="layer" style="--lc:var(--mgray)">
+            <h4>Employer HCM Environment</h4>
+            <span class="lt">Foundation Layer</span>
+          </div>
+          <div class="layer" style="--lc:var(--teal)">
+            <h4>HCM &amp; Enterprise Systems</h4>
+            <span class="lt">Employer Data Stream</span>
+          </div>
+          <div class="layer" style="--lc:var(--orange)">
+            <h4>Everly AI Companion Data</h4>
+            <span class="lt">Employee Behavioral Stream</span>
+          </div>
+          <div class="layer" style="--lc:var(--purple)">
+            <h4>Pinch Insight AI Analytics</h4>
+            <span class="lt">Analytics Engine</span>
+          </div>
+          <div class="layer" style="--lc:var(--lilac)">
+            <h4>Pinch AI Engine &amp; Everly Companion</h4>
+            <span class="lt">Top Layer</span>
+          </div>
+        </div>
+        <div class="stack-steps" id="stackSteps">
+          <div class="sstep active" style="--sc:var(--mgray)">
+            <div class="eyebrow">Foundation Layer</div>
+            <h3>Employer HCM Environment</h3>
+            <p>Pinch sits above the ecosystem, never replacing systems, only making them smarter.</p>
+            <div class="chips"><span>100+ Integrations</span><span>Agnostic to HRIS, BenAdmin and Wellness Vendors</span><span>Secure, Compliant, Real-Time Data Flows</span></div>
+          </div>
+          <div class="sstep" style="--sc:var(--teal)">
+            <div class="eyebrow">Employer Data Stream</div>
+            <h3>HCM &amp; Enterprise Systems</h3>
+            <p>Structured enterprise data from all employer systems, flowing upward into Pinch Insight.</p>
+            <div class="chips"><span>HRIS</span><span>Payroll</span><span>Benefits Admin</span><span>Claims &amp; Eligibility</span><span>Time &amp; Attendance</span><span>Engagement &amp; Wellness</span><span>LMS / Performance</span></div>
+          </div>
+          <div class="sstep" style="--sc:var(--orange)">
+            <div class="eyebrow">Employee Behavioral Stream</div>
+            <h3>Everly AI Companion Data</h3>
+            <p>Real world behavioral and social data captured through Everly, flowing upward into Pinch Insight.</p>
+            <div class="chips"><span>Everly App Interactions</span><span>Behavioral Signals</span><span>Social &amp; Sentiment</span><span>Daily Engagement Patterns</span><span>Marketplace Activity</span></div>
+          </div>
+          <div class="sstep" style="--sc:var(--purple)">
+            <div class="eyebrow">Analytics Engine</div>
+            <h3>Pinch Insight AI Analytics</h3>
+            <p>Unified analytics enriched with real world behavioral data.</p>
+            <div class="chips"><span>Risk Scoring</span><span>Cost Forecasting</span><span>Benefits Optimization</span><span>Wellness Personalization</span><span>Workforce Trend Detection</span><span>Scenario Modeling</span></div>
+          </div>
+          <div class="sstep" style="--sc:var(--lilac)">
+            <div class="eyebrow">Top Layer</div>
+            <h3>Pinch AI Engine &amp; Everly Companion</h3>
+            <p>The overriding AI layer powering insights, engagement, and decision automation.</p>
+            <div class="chips"><span>Predictive Models</span><span>LLM-Driven Reasoning</span><span>Behavioral Intelligence</span><span>Personalization Engine</span><span>Incentive Optimization</span><span>User Configurable Dashboards</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO TO STACK -->
+<section class="section" style="background:var(--navy)">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="color:var(--purple)">The Pinch Insights AI Difference</div>
+    <h2 class="big reveal d1">How Pinch Insight AI Connects, Enriches, and Activates Your Workforce Data.</h2>
+    <p class="lede reveal d2" style="color:rgba(255,255,255,.7)">Pinch functions as an agnostic, system-wide aggregator that isolates, amplifies, and operationalizes the full power of AI across the workforce. Pinch never replaces existing systems, only making them smarter. Pinch unifies enterprise HR data with real employee behavior to create the first true AI intelligence layer for the modern workforce.</p>
+    <div class="pipe reveal d3" id="pipe">
+      <div class="pcard hot" style="--pc:var(--teal)">
+        <span class="pnum"><i></i>Step One</span>
+        <h3>Connect</h3>
+        <p>Plugs into every system you already run. HRIS, payroll, benefits, wellness, and engagement, with no rip-and-replace.</p>
+      </div>
+      <div class="pconn" style="--pc:var(--teal)"><span class="pdot"></span><span class="pdot pd2"></span></div>
+      <div class="pcard" style="--pc:var(--orange)">
+        <span class="pnum"><i></i>Step Two</span>
+        <h3>Enrich</h3>
+        <p>Layers in real world behavioral and social signals captured through Everly, the data no other system can see.</p>
+      </div>
+      <div class="pconn" style="--pc:var(--orange)"><span class="pdot"></span><span class="pdot pd2"></span></div>
+      <div class="pcard" style="--pc:var(--purple)">
+        <span class="pnum"><i></i>Step Three</span>
+        <h3>Activate</h3>
+        <p>Turns unified data into predictions, scenarios, and recommended actions your leadership team can act on.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOT CHAT -->
+<section class="section bot">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="color:var(--teal)">Powered by Advanced Conversational AI</div>
+    <h2 class="big reveal d1">AI That Learns, Understands, and Optimizes Your Analytics.</h2>
+    <p class="lede reveal d2" style="color:rgba(255,255,255,.7)">The Pinch Insight AI Bot is ready to work the moment you tell it what you are trying to achieve.</p>
+    <div class="bot-grid reveal d3">
+      <div class="bot-cell">
+      <div class="bot-window" id="botWindow">
+        <div class="bot-head"><span class="bdot"></span><strong>Pinch Insight AI</strong><small>Ready to Work</small></div>
+        <div class="chat-area" id="chatArea"></div>
+        <div class="chat-input"><span>Message Pinch Insight AI...</span><span class="send"></span></div>
+      </div>
+      </div>
+      <div class="bot-steps" id="botSteps">
+        <div class="bstep hot" style="--bc:var(--teal)"><span class="bn">01</span><p>Start with a conversation. The Pinch Insight AI Bot is ready to work the moment you tell it what you are trying to achieve.</p></div>
+        <div class="bstep" style="--bc:var(--purple)"><span class="bn">02</span><p>Use simple, natural dialogue to describe your goals, challenges, or scenarios. No technical setup required.</p></div>
+        <div class="bstep" style="--bc:var(--orange)"><span class="bn">03</span><p>Configure your dashboard effortlessly as the Bot helps you identify the KPIs that matter most to your organization.</p></div>
+        <div class="bstep" style="--bc:var(--teal)"><span class="bn">04</span><p>Select your data sources: HR, Payroll, BenAdmin, Everly, or any combination, through quick conversational prompts.</p></div>
+        <div class="bstep" style="--bc:var(--purple)"><span class="bn">05</span><p>Let the Bot guide your logic as it walks you step by step through modeling, assumptions, and what-if scenarios.</p></div>
+        <div class="bstep" style="--bc:var(--orange)"><span class="bn">06</span><p>Get instant, predictive insights generated through a conversational workflow that feels intuitive and human.</p></div>
+      </div>
+    </div>
+  </section>
+
+<!-- EVERLY GRID -->
+<section class="section everly" style="padding-top:80px">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="color:var(--orange)">Meet Everly</div>
+    <h2 class="big reveal d1" style="max-width:1100px">The AI Health &amp; Benefits Companion<br>Employees Love and Employers Trust.</h2>
+    <p class="lede reveal d2">Everly engages employees daily, captures real behavioral signals, and feeds the Pinch AI engine with the data traditional HCM systems can’t see.</p>
+    <div class="egrid">
+      <div class="ecard reveal" style="--ec:var(--teal)">
+        <div class="edot"></div>
+        <h3>Personalized Guidance at Scale</h3>
+        <ul>
+          <li>AI Companion for Every Employee</li>
+          <li>Personalized Health, Wellness, and Benefits Guidance in Real Time</li>
+          <li>Tailored to Each Individual’s Goals, Habits, and Needs</li>
+        </ul>
+      </div>
+      <div class="ecard reveal d1" style="--ec:var(--purple)">
+        <div class="edot"></div>
+        <h3>The Data No Other System Can Access</h3>
+        <ul>
+          <li>Captures Behavioral, Social, and Engagement Signals</li>
+          <li>Data No HRIS or BenAdmin System Can Access</li>
+          <li>The Behavioral Layer That Makes Predictive Analytics Truly Predictive</li>
+        </ul>
+      </div>
+      <div class="ecard reveal d2" style="--ec:var(--orange)">
+        <div class="edot"></div>
+        <h3>Intelligent Nudges That Drive Action</h3>
+        <ul>
+          <li>Intelligent Nudges and Habit-Building Prompts</li>
+          <li>Employer-Sponsored Incentives That Reinforce Healthy Behaviors</li>
+          <li>Measurable Engagement Improvements and Better Outcomes</li>
+        </ul>
+      </div>
+      <div class="ecard reveal" style="--ec:var(--orange)">
+        <div class="edot"></div>
+        <h3>Everly Marketplace</h3>
+        <ul>
+          <li>Sponsored Discounts and Employer-Funded Perks</li>
+          <li>Retail Incentives That Reinforce Healthy Behaviors</li>
+          <li>Creates a Continuous Engagement Loop That Strengthens the Data Signal</li>
+        </ul>
+      </div>
+      <div class="ecard reveal d1" style="--ec:var(--teal)">
+        <div class="edot"></div>
+        <h3>Feeds the Pinch AI Engine</h3>
+        <ul>
+          <li>Every Interaction Enriches Employer HCM Data</li>
+          <li>Real-World Behavioral Insights Power Pinch Insight Analytics</li>
+          <li>The Signal No Competitor Can Replicate</li>
+        </ul>
+      </div>
+      <div class="ecard reveal d2" style="--ec:var(--purple)">
+        <div class="edot"></div>
+        <h3>Fully Agnostic. Fully Deployable.</h3>
+        <ul>
+          <li>Fully Agnostic to HRIS, BenAdmin, Wellness, and Engagement Vendors</li>
+          <li>Deploys Across Any Employer Ecosystem</li>
+          <li>Works Seamlessly With What You Already Have</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOOP -->
+<section class="section loop">
+  <div class="wrap">
+    <div class="loop-top">
+      <div>
+        <div class="eyebrow reveal" style="color:var(--lilac)">The Intelligence Loop</div>
+        <h2 class="big reveal d1">How Everly Powers the Pinch Intelligence Loop at Scale.</h2>
+        <p class="lede reveal d2" style="color:rgba(255,255,255,.7)">Everly closes the loop between employee behavior and employer data. The result: the full power of AI finally available across the entire workforce. Every employee interaction strengthens the signal, and every insight makes the next one sharper.</p>
+      </div>
+      <canvas id="loopCanvas" width="800" height="800" class="reveal d3"></canvas>
+    </div>
+    <div class="loop-cards">
+      <div class="lcard reveal" style="--kc:var(--orange)">
+        <span class="ktag">Employee Layer</span>
+        <h3>Everly, the Employee-Facing AI Companion</h3>
+        <ul>
+          <li>Personalized Guidance</li>
+          <li>Behavioral Nudges</li>
+          <li>Social &amp; Sentiment Signals</li>
+          <li>Marketplace Incentives</li>
+          <li>Daily Engagement</li>
+        </ul>
+      </div>
+      <div class="lcard reveal d1" style="--kc:var(--teal)">
+        <span class="ktag">Enterprise Layer</span>
+        <h3>Employer HCM Ecosystem</h3>
+        <ul>
+          <li>HRIS</li>
+          <li>Payroll</li>
+          <li>Benefits Admin</li>
+          <li>Claims &amp; Eligibility</li>
+          <li>Wellness &amp; Engagement</li>
+          <li>Performance &amp; LMS</li>
+        </ul>
+      </div>
+      <div class="lcard reveal d2" style="--kc:var(--lilac)">
+        <span class="ktag">Intelligence Layer</span>
+        <h3>Pinch AI Engine</h3>
+        <ul>
+          <li>LLM Reasoning</li>
+          <li>Predictive Models</li>
+          <li>Personalization Engine</li>
+          <li>Incentive Optimization</li>
+          <li>Risk &amp; Cost Scoring</li>
+        </ul>
+      </div>
+      <div class="lcard reveal d3" style="--kc:var(--purple)">
+        <span class="ktag">Analytics Output</span>
+        <h3>Pinch Insight Analytics</h3>
+        <ul>
+          <li>Predictive Analytics</li>
+          <li>Workforce Risk Detection</li>
+          <li>Cost Forecasting</li>
+          <li>Benefits Optimization</li>
+          <li>Health &amp; Wellness Insights</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-orbs">
+    <div class="orb orb1 plxo" data-speed="0.15"></div>
+    <div class="orb orb2 plxo" data-speed="-0.1"></div>
+    <div class="orb orb3 plxo" data-speed="0.08"></div>
+  </div>
+  <div class="wrap">
+    <h2 class="reveal">Ready to See the Full Picture?</h2>
+    <p class="reveal d1">See how Pinch Insight AI connects your HCM ecosystem, enriches it with real behavioral data, and delivers the predictive intelligence your leadership team has been waiting for.</p>
+    <a class="btn-primary reveal d2" href="https://pinchhealth.com/book-demo/">Book Your Demo Today</a>
+    <div class="cta-motto reveal d3" id="motto">
+      <span>Isolate</span><span>/</span><span>Cultivate</span><span>/</span><span>Act</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="https://pinchhealth.com"><img src="data:image/webp;base64,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" alt="Pinch"></a>
+      <div class="footer-links">
+        <a href="https://pinchhealth.com/pinch-architecture/">Pinch Architecture</a>
+        <a href="https://pinchhealth.com/meet-everly/">Meet Everly</a>
+        <a href="https://pinchhealth.com/meet-everly/#faq">FAQs</a>
+        <a href="https://pinchhealth.com/book-demo/">Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var TEAL="#439288", PURPLE="#6C6CE8", ORANGE="#E87B35", LILAC="#C6A5F9";
+var DPR=(window.devicePixelRatio&&isFinite(window.devicePixelRatio))?window.devicePixelRatio:1;
+
+/* ---- Hero headline word stagger ---- */
+var h1=document.getElementById("heroH1");
+(function(){
+  var delay=0;
+  h1.querySelectorAll(".hl").forEach(function(line){
+    line.innerHTML=line.textContent.split(/\s+/).filter(Boolean).map(function(w){
+      delay+=0.055;
+      return '<span class="w" style="animation-delay:'+delay.toFixed(2)+'s">'+w+'</span>';
+    }).join(" ");
+  });
+})();
+
+/* ---- Nav ---- */
+var nav=document.getElementById("nav");
+window.addEventListener("scroll",function(){ nav.classList.toggle("scrolled",window.scrollY>40); },{passive:true});
+var burger=document.getElementById("navBurger"), mobileMenu=document.getElementById("mobileMenu");
+burger.addEventListener("click",function(){
+  burger.classList.toggle("open");
+  mobileMenu.classList.toggle("open");
+  nav.classList.add("scrolled");
+});
+mobileMenu.querySelectorAll("a").forEach(function(a){
+  a.addEventListener("click",function(){ burger.classList.remove("open"); mobileMenu.classList.remove("open"); });
+});
+
+/* ---- Reveal on scroll ---- */
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+},{threshold:0.15});
+document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+/* ---- Motto ---- */
+var motto=document.getElementById("motto");
+new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) motto.classList.add("in"); });
+},{threshold:0.6}).observe(motto);
+
+/* ---- Parallax orbs ---- */
+var plxEls=Array.prototype.slice.call(document.querySelectorAll(".plxo"));
+function parallax(){
+  var vh=window.innerHeight;
+  plxEls.forEach(function(el){
+    var r=el.getBoundingClientRect();
+    if(r.bottom<0||r.top>vh) return;
+    var speed=parseFloat(el.dataset.speed||0.1);
+    var offset=(r.top+r.height/2-vh/2)*speed;
+    el.style.transform="translate3d(0,"+(-offset)+"px,0)";
+  });
+  if(!reduced) requestAnimationFrame(parallax);
+}
+if(!reduced) requestAnimationFrame(parallax);
+
+/* ---- Hero canvas: ecosystem mesh with pulses flowing upward ---- */
+var cv=document.getElementById("rise"), cx=cv.getContext("2d");
+var W,H,nodes=[],edges=[],pulses=[],runners=[];
+var pulseCols=["#439288","#E87B35","#6C6CE8"];
+function buildMesh(){
+  nodes=[]; edges=[];
+  /* symmetric square grid */
+  var COLS=7, ROWS=4;
+  var grid=[];
+  for(var r=0;r<ROWS;r++){
+    grid[r]=[];
+    for(var c=0;c<COLS;c++){
+      var x=0.05+(c/(COLS-1))*0.90;
+      var y=0.14+(r/(ROWS-1))*0.82;
+      nodes.push({
+        x:x, y:y,
+        r:((r+c)%4===0)?3.2:1.9,
+        phase:(r*1.7+c*0.9),
+        links:[]
+      });
+      grid[r][c]=nodes.length-1;
+    }
+  }
+  function addEdge(a,b){
+    if(a==null||b==null) return;
+    var e={a:a,b:b};
+    edges.push(e);
+    nodes[a].links.push(edges.length-1);
+    nodes[b].links.push(edges.length-1);
+  }
+  for(var r2=0;r2<ROWS;r2++){
+    for(var c2=0;c2<COLS;c2++){
+      var id=grid[r2][c2];
+      if(c2<COLS-1) addEdge(id,grid[r2][c2+1]); /* horizontal */
+      if(r2<ROWS-1) addEdge(id,grid[r2+1][c2]); /* vertical */
+    }
+  }
+  pulses=[];
+  for(var p=0;p<24;p++){ pulses.push(spawnPulse(p)); }
+  runners=[
+    {row:0, x:0.15, dir:1,  sp:0.0016, col:"#439288"},
+    {row:0, x:0.65, dir:1,  sp:0.0016, col:"#E87B35"},
+    {row:1, x:0.30, dir:-1, sp:0.0019, col:"#6C6CE8"},
+    {row:1, x:0.80, dir:-1, sp:0.0019, col:"#439288"}
+  ];
+}
+function spawnPulse(i){
+  /* start on an edge in the lower half, heading toward the higher node */
+  var tries=0, e, ei;
+  do{ ei=Math.floor(Math.random()*edges.length); e=edges[ei]; tries++; }
+  while(tries<40 && Math.min(nodes[e.a].y,nodes[e.b].y)<0.45);
+  var from = nodes[e.a].y>nodes[e.b].y ? e.a : e.b;
+  return {edge:ei, from:from, t:Math.random()*0.6, sp:0.004+Math.random()*0.005, col:pulseCols[i%3]};
+}
+function heroSize(){
+  W=cv.width=Math.max(1,cv.offsetWidth*DPR);
+  H=cv.height=Math.max(1,cv.offsetHeight*DPR);
+  buildMesh();
+}
+heroSize(); window.addEventListener("resize",heroSize);
+function edgeFade(x,y){
+  var fx=Math.min(Math.max(Math.min(x,W-x)/(W*0.20),0),1);
+  var fy=Math.min(Math.max(Math.min(y,H-y)/(H*0.20),0),1);
+  fx=fx*fx*(3-2*fx); fy=fy*fy*(3-2*fy);
+  return fx*fy;
+}
+function nodePos(i,t){
+  var nd=nodes[i];
+  return { x:nd.x*W, y:nd.y*H };
+}
+function heroDraw(){
+  if(!isFinite(W)||!isFinite(H)||W<2||H<2){ heroSize(); if(!reduced) requestAnimationFrame(heroDraw); return; }
+  cx.clearRect(0,0,W,H);
+  var t=performance.now()/1000;
+  /* bright intelligence region at top center */
+  var g=cx.createRadialGradient(W*0.5,H*0.02,0,W*0.5,H*0.02,H*0.5);
+  g.addColorStop(0,"rgba(198,165,249,0.22)");
+  g.addColorStop(0.5,"rgba(108,108,232,0.08)");
+  g.addColorStop(1,"rgba(108,108,232,0)");
+  cx.fillStyle=g; cx.fillRect(0,0,W,H);
+  /* edges */
+  cx.lineWidth=1*DPR;
+  edges.forEach(function(e){
+    var pa=nodePos(e.a,t), pb=nodePos(e.b,t);
+    cx.globalAlpha=edgeFade((pa.x+pb.x)/2,(pa.y+pb.y)/2);
+    cx.strokeStyle="rgba(255,255,255,0.09)";
+    cx.beginPath(); cx.moveTo(pa.x,pa.y); cx.lineTo(pb.x,pb.y); cx.stroke();
+  });
+  cx.globalAlpha=1;
+  /* nodes */
+  nodes.forEach(function(nd,i){
+    var p=nodePos(i,t);
+    var tw=0.55+Math.sin(t*1.3+nd.phase)*0.25;
+    cx.globalAlpha=tw*edgeFade(p.x,p.y);
+    cx.fillStyle="rgba(255,255,255,0.9)";
+    cx.beginPath(); cx.arc(p.x,p.y,nd.r*DPR,0,Math.PI*2); cx.fill();
+  });
+  cx.globalAlpha=1;
+  /* pulses traveling edges, biased upward */
+  pulses.forEach(function(pl,idx){
+    var e=edges[pl.edge];
+    var toIdx = (pl.from===e.a)? e.b : e.a;
+    var pa=nodePos(pl.from,t), pb=nodePos(toIdx,t);
+    pl.t+=pl.sp;
+    if(pl.t>=1){
+      /* arrived: pick next edge from this node, prefer the one leading highest */
+      var nd=nodes[toIdx];
+      if(nd.y<0.20 || nd.links.length<2){
+        pulses[idx]=spawnPulse(idx);
+        return;
+      }
+      var best=-1, bestY=2;
+      nd.links.forEach(function(li){
+        if(li===pl.edge) return;
+        var oe=edges[li];
+        var other=(oe.a===toIdx)?oe.b:oe.a;
+        var oy=nodes[other].y+Math.random()*0.18; /* slight randomness */
+        if(oy<bestY){ bestY=oy; best=li; }
+      });
+      if(best<0){ pulses[idx]=spawnPulse(idx); return; }
+      pl.edge=best; pl.from=toIdx; pl.t=0;
+      return;
+    }
+    var x=pa.x+(pb.x-pa.x)*pl.t, y=pa.y+(pb.y-pa.y)*pl.t;
+    cx.globalAlpha=0.95*edgeFade(x,y);
+    cx.fillStyle=pl.col;
+    cx.beginPath(); cx.arc(x,y,3*DPR,0,Math.PI*2); cx.fill();
+    /* short tail */
+    var tx=pa.x+(pb.x-pa.x)*Math.max(0,pl.t-0.08), ty=pa.y+(pb.y-pa.y)*Math.max(0,pl.t-0.08);
+    cx.globalAlpha=0.35*edgeFade(x,y);
+    cx.strokeStyle=pl.col; cx.lineWidth=2*DPR;
+    cx.beginPath(); cx.moveTo(tx,ty); cx.lineTo(x,y); cx.stroke();
+  });
+  cx.globalAlpha=1;
+  /* horizontal runners on the top two rows */
+  runners.forEach(function(rn){
+    rn.x+=rn.sp*rn.dir;
+    if(rn.x>1.02) rn.x=-0.02;
+    if(rn.x<-0.02) rn.x=1.02;
+    var ry=(0.14+(rn.row/3)*0.82)*H;
+    var rx=rn.x*W;
+    cx.globalAlpha=0.95*edgeFade(rx,ry);
+    cx.fillStyle=rn.col;
+    cx.beginPath(); cx.arc(rx,ry,3*DPR,0,Math.PI*2); cx.fill();
+    var tx=(rn.x-0.03*rn.dir)*W;
+    cx.globalAlpha=0.35*edgeFade(rx,ry);
+    cx.strokeStyle=rn.col; cx.lineWidth=2*DPR;
+    cx.beginPath(); cx.moveTo(tx,ry); cx.lineTo(rx,ry); cx.stroke();
+  });
+  cx.globalAlpha=1;
+  if(!reduced) requestAnimationFrame(heroDraw);
+}
+if(reduced){ heroDraw(); } else { requestAnimationFrame(heroDraw); }
+
+/* ---- Layer stack pinned scroll ---- */
+var pin=document.getElementById("stackPin");
+var layers=document.querySelectorAll("#stackVisual .layer");
+var ssteps=document.querySelectorAll("#stackSteps .sstep");
+var sdots=document.querySelectorAll("#stackDots span");
+function stackPhase(){
+  var r=pin.getBoundingClientRect();
+  var total=r.height-window.innerHeight;
+  var p=Math.min(Math.max(-r.top/total,0),1);
+  var idx=Math.min(Math.floor(p*5),4);
+  layers.forEach(function(l,i){
+    l.classList.toggle("on",i<=idx);
+    l.classList.toggle("hot",i===idx);
+  });
+  ssteps.forEach(function(s,i){ s.classList.toggle("active",i===idx); });
+  sdots.forEach(function(d,i){ d.classList.toggle("on",i===idx); });
+}
+window.addEventListener("scroll",stackPhase,{passive:true});
+stackPhase();
+if(reduced){ layers.forEach(function(l){ l.classList.add("on"); }); }
+
+/* ---- Pipeline hot-card cycle ---- */
+var pcards=Array.prototype.slice.call(document.querySelectorAll("#pipe .pcard"));
+if(pcards.length && !reduced){
+  var pIdx=0;
+  setInterval(function(){
+    pIdx=(pIdx+1)%pcards.length;
+    pcards.forEach(function(c,k){ c.classList.toggle("hot",k===pIdx); });
+  },2400);
+}
+
+/* ---- Live chat demo loop ---- */
+var chatArea=document.getElementById("chatArea");
+var chatScript=[
+  {who:"user", text:"I want to reduce our benefits spend next year."},
+  {who:"bot",  text:"I can model that. Which data sources should I use: HR, Payroll, BenAdmin, Everly, or all of them?"},
+  {who:"user", text:"Use all of them."},
+  {who:"bot",  text:"Connected. Your top cost driver is ER utilization. Want me to run a what-if scenario with a telemedicine nudge?"},
+  {who:"user", text:"Yes, show me the impact."},
+  {who:"bot",  text:"Modeled: 9% projected claims savings with positive P&L impact in year one. Adding this KPI to your dashboard."}
+];
+function addMsg(cls){
+  var d=document.createElement("div");
+  d.className="cmsg "+cls;
+  chatArea.appendChild(d);
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ d.classList.add("show"); chatScroll(); }); });
+  return d;
+}
+function chatScroll(){
+  chatArea.scrollTo({top:chatArea.scrollHeight,behavior:"smooth"});
+}
+if(reduced){
+  chatScript.forEach(function(m){ var d=addMsg(m.who); d.textContent=m.text; d.classList.add("show"); });
+}else{
+  var chatStarted=false;
+  function runChat(i){
+    if(i>=chatScript.length){
+      setTimeout(function(){
+        chatArea.style.opacity=0;
+        setTimeout(function(){
+          chatArea.innerHTML="";
+          chatArea.style.opacity=1;
+          setTimeout(function(){ runChat(0); },500);
+        },700);
+      },4500);
+      return;
+    }
+    var m=chatScript[i];
+    if(m.who==="user"){
+      var d=addMsg("user");
+      var ch=0;
+      (function type(){
+        if(ch<m.text.length){ d.textContent=m.text.slice(0,++ch); chatScroll(); setTimeout(type,26); }
+        else{ setTimeout(function(){ runChat(i+1); },520); }
+      })();
+    }else{
+      var tp=addMsg("bot typing");
+      tp.innerHTML="<i></i><i></i><i></i>";
+      setTimeout(function(){
+        tp.classList.remove("show");
+        setTimeout(function(){
+          tp.remove();
+          var d=addMsg("bot");
+          d.textContent=m.text;
+          chatScroll();
+          setTimeout(function(){ runChat(i+1); },1500);
+        },450);
+      },1200);
+    }
+  }
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !chatStarted){ chatStarted=true; runChat(0); }
+    });
+  },{threshold:0.3}).observe(document.getElementById("botWindow"));
+}
+
+/* ---- Step highlight cycle ---- */
+var bsteps=Array.prototype.slice.call(document.querySelectorAll("#botSteps .bstep"));
+if(bsteps.length && !reduced){
+  var bIdx=0;
+  setInterval(function(){
+    bIdx=(bIdx+1)%bsteps.length;
+    bsteps.forEach(function(s,k){ s.classList.toggle("hot",k===bIdx); });
+  },3000);
+}
+
+/* ---- Intelligence loop canvas ---- */
+var lc=document.getElementById("loopCanvas"), lcx=lc.getContext("2d");
+var loopNodes=[
+  {label:"EVERLY",    sub:"Employee Layer",     col:ORANGE, a:-Math.PI/2},
+  {label:"HCM",       sub:"Enterprise Layer",   col:TEAL,   a:0},
+  {label:"ANALYTICS", sub:"Analytics Output",   col:PURPLE, a:Math.PI/2},
+  {label:"ENGINE",    sub:"Intelligence Layer", col:LILAC,  a:Math.PI}
+];
+function loopDraw(){
+  var w=lc.width,h=lc.height,c=w/2,cy=h/2,R=h*0.34,t=performance.now()/1000;
+  lcx.clearRect(0,0,w,h);
+  /* ring */
+  lcx.strokeStyle="rgba(255,255,255,0.14)"; lcx.lineWidth=2;
+  lcx.beginPath(); lcx.arc(c,cy,R,0,Math.PI*2); lcx.stroke();
+  /* orbiting pulses */
+  for(var k=0;k<10;k++){
+    var q=(t*0.11+k/10)%1;
+    var ang=q*Math.PI*2-Math.PI/2;
+    var qx=c+Math.cos(ang)*R, qy=cy+Math.sin(ang)*R;
+    var col=[ORANGE,TEAL,PURPLE,LILAC][k%4];
+    lcx.globalAlpha=0.9;
+    lcx.beginPath(); lcx.arc(qx,qy,6,0,Math.PI*2); lcx.fillStyle=col; lcx.fill();
+  }
+  lcx.globalAlpha=1;
+  /* nodes */
+  loopNodes.forEach(function(n){
+    var nx=c+Math.cos(n.a)*R, ny=cy+Math.sin(n.a)*R;
+    lcx.beginPath(); lcx.arc(nx,ny,76,0,Math.PI*2);
+    lcx.fillStyle="#0A1229"; lcx.fill();
+    lcx.lineWidth=3.5; lcx.strokeStyle=n.col; lcx.stroke();
+    lcx.fillStyle="#FFFFFF"; lcx.font="bold 19px Arial"; lcx.textAlign="center"; lcx.textBaseline="middle";
+    lcx.fillText(n.label,nx,ny);
+    lcx.fillStyle=n.col; lcx.font="bold 22px Arial";
+    var ly=ny+(Math.sin(n.a)>=0.5?112:(Math.sin(n.a)<=-0.5?-108:0));
+    if(Math.abs(Math.cos(n.a))>0.5){ ly=ny-108; }
+    lcx.fillText(n.sub,nx,ly);
+  });
+  /* connectors from each node to the core, matching node color and stroke */
+  var prBase=92+Math.sin(t*2)*7;
+  loopNodes.forEach(function(n){
+    var sx=c+Math.cos(n.a)*(R-76), sy=cy+Math.sin(n.a)*(R-76);
+    var ex=c+Math.cos(n.a)*prBase, ey=cy+Math.sin(n.a)*prBase;
+    lcx.strokeStyle=n.col; lcx.lineWidth=3.5;
+    lcx.beginPath(); lcx.moveTo(sx,sy); lcx.lineTo(ex,ey); lcx.stroke();
+  });
+  /* center with pronounced breathing glow */
+  var pr=prBase;
+  var glowP=(Math.sin(t*2)+1)/2;
+  var grd=lcx.createRadialGradient(c,cy,0,c,cy,pr*(1.9+glowP*0.6));
+  grd.addColorStop(0,"rgba(198,165,249,"+(0.24+glowP*0.26).toFixed(3)+")");
+  grd.addColorStop(1,"rgba(198,165,249,0)");
+  lcx.fillStyle=grd; lcx.beginPath(); lcx.arc(c,cy,pr*(1.9+glowP*0.6),0,Math.PI*2); lcx.fill();
+  lcx.beginPath(); lcx.arc(c,cy,pr,0,Math.PI*2); lcx.fillStyle="#FFFFFF"; lcx.fill();
+  lcx.textAlign="center"; lcx.textBaseline="middle";
+  lcx.font="bold 34px Arial";
+  var pinchW=lcx.measureText("PINCH").width;
+  lcx.fillStyle="#101B3C";
+  lcx.fillText("PINCH",c,cy-10);
+  /* justify INSIGHT AI to the exact width of PINCH */
+  lcx.font="bold 10px Arial";
+  var insW10=lcx.measureText("INSIGHT AI").width;
+  var insSize=10*pinchW/insW10;
+  lcx.font="bold "+insSize.toFixed(1)+"px Arial";
+  lcx.fillStyle="#6C6CE8";
+  lcx.fillText("INSIGHT AI",c,cy+14);
+  if(!reduced) requestAnimationFrame(loopDraw);
+}
+if(reduced){ loopDraw(); } else { requestAnimationFrame(loopDraw); }
+})();
+</script>
+</body>
+</html>
